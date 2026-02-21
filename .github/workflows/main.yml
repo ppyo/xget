@@ -1,0 +1,36 @@
+name: 部署 xget
+
+on:
+  # 1. 自动触发：推送到 main 分支时（忽略文档等文件）
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'README.md'
+  # 2. 手动触发：在 Actions 页面点击运行
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # 使用您之前已经配置好的 Secrets
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 部署到 Cloudflare
+        # 这里是核心部署命令，请根据 xget 项目的实际部署要求填写
+        run: |
+          echo "🚀 开始部署 xget 项目..."
+          # 示例：如果使用 wrangler 部署，请取消下一行的注释并保存
+          # npx wrangler deploy
+          # 如果您的项目需要先安装依赖和构建，可以参考以下格式：
+          # npm install
+          # npm run build
+          # npx wrangler deploy
